@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="com.obiscr.chatgpt.settings.EasyCodeState">
+    <option name="projectFiles" value="$PROJECT_DIR$/src/main/java/com/online_shopping/config/SecurityConfig.java;C:/nodejs-project/pm/online-shopping/src/main/java/com/online_shopping/entity/Order.java;C:/nodejs-project/pm/online-shopping/src/main/java/com/online_shopping/entity/OrderItem.java;C:/nodejs-project/pm/online-shopping/src/main/java/com/online_shopping/entity/Product.java;C:/nodejs-project/pm/online-shopping/src/main/java/com/online_shopping/entity/User.java;C:/nodejs-project/pm/online-shopping/src/main/java/com/online_shopping/entity/Watchlist.java;C:/nodejs-project/pm/online-shopping/src/main/java/com/online_shopping/exception/GlobalExceptionHandler.java;C:/nodejs-project/pm/online-shopping/src/main/java/com/online_shopping/repository/ProductDao.java;C:/nodejs-project/pm/online-shopping/src/main/java/com/online_shopping/repository/UserDao.java;C:/nodejs-project/pm/online-shopping/src/main/java/com/online_shopping/service/AuthService.java;C:/nodejs-project/pm/online-shopping/src/main/java/com/online_shopping/OnlineShoppingApplication.java;C:/nodejs-project/pm/online-shopping/src/test/java/com/online_shopping/OnlineShoppingApplicationTests.java;C:/nodejs-project/pm/online-shopping/pom.xml" />
+  </component>
+</project>
