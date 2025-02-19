@@ -1,6 +1,7 @@
 package com.online_shopping.repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.*;
 
 import com.online_shopping.entity.Product;
@@ -8,15 +9,17 @@ import com.online_shopping.entity.User;
 import com.online_shopping.entity.Watchlist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Repository
 public class WatchlistRepository {
 
-    @Autowired
+    @PersistenceContext
     private EntityManager entityManager;
 
+    @Transactional
     public Watchlist addToWatchlist(User user, Product product) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Watchlist> cq = cb.createQuery(Watchlist.class);
@@ -39,6 +42,7 @@ public class WatchlistRepository {
         return watchlist;
     }
 
+    @Transactional
     public List<Watchlist> getAllWatchlists(User user) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Watchlist> cq = cb.createQuery(Watchlist.class);
@@ -48,6 +52,7 @@ public class WatchlistRepository {
         return entityManager.createQuery(cq).getResultList();
     }
 
+    @Transactional
     public void removeFromWatchlist(User user, Product product) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Watchlist> cq = cb.createQuery(Watchlist.class);

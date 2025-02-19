@@ -21,7 +21,7 @@ public class WatchlistController {
     private UserService  userService ;
 
     @PostMapping("/product/{productId}")
-    public ResponseEntity<Watchlist> addToWatchlist(@RequestParam Long userId, @PathVariable Long productId) {
+    public ResponseEntity<Watchlist> addToWatchlist(@PathVariable Long productId) {
 //        User user = userService.getCurrentUser() ;
         User user = userService.findByUsername("admin") ;
         Watchlist watchlist = watchlistService.addToWatchlist(user, productId);
@@ -32,7 +32,7 @@ public class WatchlistController {
     }
 
     @GetMapping("/products/all")
-    public ResponseEntity<List<Watchlist>> getAllWatchlist(@RequestParam Long userId) {
+    public ResponseEntity<List<Watchlist>> getAllWatchlist() {
 //        User user = userService.getCurrentUser() ;
         User user = userService.findByUsername("admin") ;
         List<Watchlist> watchlist = watchlistService.getAllWatchlist(user);
@@ -40,11 +40,12 @@ public class WatchlistController {
     }
 
     @DeleteMapping("/product/{productId}")
-    public ResponseEntity<Void> removeFromWatchlist(@RequestParam Long userId, @PathVariable Long productId) {
+    public ResponseEntity<String> removeFromWatchlist(@PathVariable Long productId) {
 //        User user = userService.getCurrentUser() ;
         User user = userService.findByUsername("admin") ;
         watchlistService.removeFromWatchlist(user, productId);
-        return ResponseEntity.noContent().build();
+
+        return ResponseEntity.ok("Watchlist product is removed");
     }
 }
 

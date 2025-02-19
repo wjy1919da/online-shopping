@@ -3,6 +3,8 @@ package com.online_shopping.controller;
 
 import com.online_shopping.entity.Product;
 import com.online_shopping.repository.ProductRepository;
+import com.online_shopping.service.ProductService;
+import com.online_shopping.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,12 @@ public class ProductController {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private ProductService productService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/all")
     public ResponseEntity<?> getProductAll(){
@@ -41,6 +49,24 @@ public class ProductController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/frequent/{topN}")
+    public ResponseEntity<List<Product>> getMostFrequentlyPurchasedProducts(
+            @PathVariable int topN) {
+        Long userId = userService.findByUsername("admin").getId() ;
+        List<Product> products = productService.getMostFrequentlyPurchasedProducts(userId);
+        return ResponseEntity.ok(products);
+    }
+
+    // Get top 3 most recently purchased products
+    @GetMapping("/recent/{topN}")
+    public ResponseEntity<List<Product>> getMostRecentlyPurchasedProducts(
+            @PathVariable int topN) {
+
+        Long userId = userService.findByUsername("admin").getId() ;
+        List<Product> products = productService.getMostRecentlyPurchasedProducts(userId);
+        return ResponseEntity.ok(products);
     }
 
 }
