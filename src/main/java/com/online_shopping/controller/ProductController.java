@@ -1,6 +1,7 @@
 package com.online_shopping.controller;
 
 
+import com.online_shopping.dto.ProductRequest;
 import com.online_shopping.entity.Product;
 import com.online_shopping.repository.ProductRepository;
 import com.online_shopping.service.ProductService;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -66,6 +68,35 @@ public class ProductController {
 
         Long userId = userService.findByUsername("admin").getId() ;
         List<Product> products = productService.getMostRecentlyPurchasedProducts(userId);
+        return ResponseEntity.ok(products);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Product> updateProduct(
+            @PathVariable Long id,
+            @Valid @RequestBody ProductRequest productRequest) {
+
+        // Call service to update the product
+        Product updatedProduct = productService.updateProduct(id, productRequest);
+        return ResponseEntity.ok(updatedProduct);
+    }
+
+    @PostMapping
+    public ResponseEntity<Product> addProduct(@Valid @RequestBody ProductRequest productRequest) {
+        Product addedProduct = productService.addProduct(productRequest);
+        return ResponseEntity.ok(addedProduct);
+    }
+
+    @GetMapping("/profit/{topN}")
+    public ResponseEntity<List<Product>> getTopMostPopularProducts(@PathVariable Long topN) {
+        List<Product> products = productService.getTopMostPopularProducts(topN);
+        return ResponseEntity.ok(products);
+    }
+
+    // Endpoint to get the top N products based on total quantity sold
+    @GetMapping("/popular/{topN}")
+    public ResponseEntity<List<Product>> getTotalQuantitySold(@PathVariable Long topN) {
+        List<Product> products = productService.getTotalQuantitySold(topN);
         return ResponseEntity.ok(products);
     }
 

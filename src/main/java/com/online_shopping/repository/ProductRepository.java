@@ -87,4 +87,48 @@ public class ProductRepository {
                 .setMaxResults(3)  // Limit the results to top 3
                 .getResultList();
     }
+
+    // Method to update a product
+    public Product updateProduct(Product product) {
+        return entityManager.merge(product);
+    }
+
+    // Method to check if a product with the same name exists (optional for validation)
+    public Optional<Product> findByName(String name) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Product> cq = cb.createQuery(Product.class);
+        Root<Product> root = cq.from(Product.class);
+        Predicate namePredicate = cb.equal(root.get("name"), name);
+        cq.where(namePredicate);
+        return entityManager.createQuery(cq).getResultStream().findFirst();
+    }
+
+    public List<Product> getTopMostPopularProducts(Long topN) {
+        // HQL query to get the top N most popular products (sold items)
+        String hql = "SELECT p FROM OrderItem oi " +
+                "JOIN oi.product p " +
+                "JOIN oi.order o " +
+                "WHERE o.orderStatus NOT IN ('CANCELLED', 'PROCESSING') " +  // Exclude canceled and ongoing orders
+                "GROUP BY p.id " +  // Group by product
+                "ORDER BY COUNT(oi) DESC, p.id ASC";  // Order by frequency of sales and break ties with product ID
+
+        return entityManager.createQuery(hql, Product.class)
+                .setMaxResults(topN.intValue())  // Limit to top N products
+                .getResultList();
+    }
+
+    public List<Product> getTotalQuantitySold(Long topN) {
+        // HQL query to get the total quantity of each product sold
+        String hql = "SELECT p FROM OrderItem oi " +
+                "JOIN oi.product p " +
+                "JOIN oi.order o " +
+                "WHERE o.orderStatus NOT IN ('CANCELLED', 'PROCESSING') " +  // Exclude canceled and ongoing orders
+                "GROUP BY p.id " +  // Group by product
+                "ORDER BY SUM(oi.quantity) DESC, p.id ASC";  // Order by the total quantity sold and break ties with product ID
+
+        return entityManager.createQuery(hql, Product.class)
+                .setMaxResults(topN.intValue())  // Limit to top N products
+                .getResultList();
+    }
+
 }
