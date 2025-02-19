@@ -1,8 +1,10 @@
 package com.online_shopping.repository;
 
+import com.online_shopping.entity.Order;
 import com.online_shopping.entity.Product;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -11,6 +13,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
+import java.util.Optional;
 
 // ProductDao.java (使用Criteria API)
 @Repository
@@ -36,5 +39,17 @@ public class ProductRepository {
     public Product getProductById(Long id) {
         // Use JPQL to find a product by ID
         return entityManager.find(Product.class, id);
+    }
+
+    public Optional<Product> findById(Long id) {
+        // Use JPQL to find a product by ID
+        Product product = entityManager.find(Product.class, id);
+        return Optional.ofNullable(product);
+    }
+
+    @Transactional
+    public Product save(Product product) {
+        entityManager.persist(product);
+        return product;
     }
 }

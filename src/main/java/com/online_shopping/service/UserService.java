@@ -6,6 +6,9 @@ import com.online_shopping.entity.User;
 import com.online_shopping.exception.UserAlreadyExistsException;
 import com.online_shopping.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -50,6 +53,34 @@ public class UserService {
         return user;
     }
 
+    public User findByUsername(String username){
+        return userRepository.findByUsername(username) ;
+    }
+
     // Other business logic methods can be added
+
+    public User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null) {
+            Object principal = authentication.getPrincipal();
+            //System.out.println("authentication.getPrincipal().toString() : "+authentication.getPrincipal().toString() );
+
+            if (principal instanceof UserDetails) {
+
+                System.out.println("principal instanceof UserDetails");
+                UserDetails userDetails = (UserDetails) principal;
+                System.out.println("userDetails username "+userDetails.getUsername());
+                User user = userRepository.findByUsername(userDetails.getUsername());
+                return user;  // Return the authenticated user
+            } else {
+                // Handle cases where the principal is not an instance of User
+                throw new RuntimeException("User not found in the SecurityContext");
+            }
+        } else {
+            throw new RuntimeException("No authentication found in SecurityContext");
+        }
+    }
+
 }
 
