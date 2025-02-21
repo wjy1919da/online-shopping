@@ -22,8 +22,8 @@ public class WatchlistController {
 
     @PostMapping("/product/{productId}")
     public ResponseEntity<Watchlist> addToWatchlist(@PathVariable Long productId) {
-//        User user = userService.getCurrentUser() ;
-        User user = userService.findByUsername("admin") ;
+        User user = userService.getCurrentUser() ;
+        //User user = userService.findByUsername("admin") ;
         Watchlist watchlist = watchlistService.addToWatchlist(user, productId);
         if (watchlist == null) {
             return ResponseEntity.badRequest().body(null);  // Already in watchlist
@@ -33,16 +33,16 @@ public class WatchlistController {
 
     @GetMapping("/products/all")
     public ResponseEntity<List<Watchlist>> getAllWatchlist() {
-//        User user = userService.getCurrentUser() ;
-        User user = userService.findByUsername("admin") ;
+        User user = userService.getCurrentUser() ;
+        //User user = userService.findByUsername("admin") ;
         List<Watchlist> watchlist = watchlistService.getAllWatchlist(user);
         return ResponseEntity.ok(watchlist);
     }
 
     @DeleteMapping("/product/{productId}")
     public ResponseEntity<String> removeFromWatchlist(@PathVariable Long productId) {
-//        User user = userService.getCurrentUser() ;
-        User user = userService.findByUsername("admin") ;
+        User user = userService.getCurrentUser() ;
+       // User user = userService.findByUsername("admin") ;
         watchlistService.removeFromWatchlist(user, productId);
 
         return ResponseEntity.ok("Watchlist product is removed");

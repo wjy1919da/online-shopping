@@ -29,9 +29,9 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<Order> createOrder(@RequestBody OrderDto orderDto) {
         System.out.println("createOrder");
-        //User currentUser = userService.getCurrentUser();
+        User currentUser = userService.getCurrentUser();
         //System.out.println(currentUser.toString());
-        User currentUser = userRepository.findByUsername("admin") ;
+
         
         Order order = orderService.createOrder(orderDto,currentUser);
 

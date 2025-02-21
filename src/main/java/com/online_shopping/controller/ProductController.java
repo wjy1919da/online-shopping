@@ -3,6 +3,7 @@ package com.online_shopping.controller;
 
 import com.online_shopping.dto.ProductRequest;
 import com.online_shopping.entity.Product;
+import com.online_shopping.entity.User;
 import com.online_shopping.repository.ProductRepository;
 import com.online_shopping.service.ProductService;
 import com.online_shopping.service.UserService;
@@ -56,8 +57,9 @@ public class ProductController {
     @GetMapping("/frequent/{topN}")
     public ResponseEntity<List<Product>> getMostFrequentlyPurchasedProducts(
             @PathVariable int topN) {
-        Long userId = userService.findByUsername("admin").getId() ;
-        List<Product> products = productService.getMostFrequentlyPurchasedProducts(userId);
+        User currentUser = userService.getCurrentUser();
+        //Long userId = userService.findByUsername("admin").getId() ;
+        List<Product> products = productService.getMostFrequentlyPurchasedProducts(currentUser.getId());
         return ResponseEntity.ok(products);
     }
 
@@ -65,9 +67,9 @@ public class ProductController {
     @GetMapping("/recent/{topN}")
     public ResponseEntity<List<Product>> getMostRecentlyPurchasedProducts(
             @PathVariable int topN) {
-
-        Long userId = userService.findByUsername("admin").getId() ;
-        List<Product> products = productService.getMostRecentlyPurchasedProducts(userId);
+        User currentUser = userService.getCurrentUser();
+        //Long userId = userService.findByUsername("admin").getId() ;
+        List<Product> products = productService.getMostRecentlyPurchasedProducts(currentUser.getId());
         return ResponseEntity.ok(products);
     }
 

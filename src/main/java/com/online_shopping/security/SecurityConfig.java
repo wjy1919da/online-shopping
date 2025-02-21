@@ -31,8 +31,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         System.out.println("SecurityConfig ");
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/signup", "/login", "/products/**", "/orders/**", "/watchlist/**").permitAll()
-                //.antMatchers("/signup", "/login", "/products/**").permitAll()
+                //.antMatchers("/signup", "/login", "/products/**", "/orders/**", "/watchlist/**").permitAll()
+                .antMatchers("/signup", "/login").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider,customUserDetailsService), UsernamePasswordAuthenticationFilter.class);
